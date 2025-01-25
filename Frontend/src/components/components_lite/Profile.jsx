@@ -4,45 +4,31 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Contact, Mail, Pen } from "lucide-react";
 import { Badge } from "../ui/badge";
-import Appliedjobs from "./Appliedjobs";
+import AppliedJob from "./Appliedjobs";
 import EditProfileModal from "./EditProfileModal";
 import { useSelector } from "react-redux";
 
-// // Mock data for user
-// const user = {
-//   fullname: "John Doe",
-//   email: "User@example.com",
-//   phoneNumber: "+91 1234567890",
-//   profile: {
-//     profilePhoto: "https://via.placeholder.com/150",
-//     bio: "Software Developer passionate about creating amazing user experiences.",
-//     skills: ["JavaScript", "React", "Node.js", "CSS"],
-//     resume: "https://example.com/resume.pdf",
-//     resumeOriginalName: "JohnDoe_Resume.pdf",
-//   },
-// };
-
+ 
+const isResume = true;
 const Profile = () => {
   const [open, setOpen] = useState(false);
-  const isResume = true;
   const { user } = useSelector((store) => store.auth);
-
   return (
     <div>
       <Navbar />
 
-      <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8 shadow shadow-gray-400 hover:shadow-yellow-400">
+      <div className="max-w-4xl mx-auto  bg-white border border-gray-200 rounded-2xl my-5 p-8 shadow shadow-gray-400 hover:shadow-yellow-400">
         <div className="flex justify-between">
           <div className="flex items-center gap-5">
             <Avatar className="cursor-pointer h-24 w-24">
-            <AvatarImage
+              <AvatarImage
                 src={user?.profile?.profilePhoto}
                 alt="@shadcn"
               />
             </Avatar>
             <div>
-            <h1 className=" font-medium text-xl">{user?.fullname}</h1>
-            <p>{user?.profile?.bio}</p>
+              <h1 className=" font-medium text-xl">{user?.fullname}</h1>
+              <p>{user?.profile?.bio}</p>
             </div>
           </div>
           <Button
@@ -53,17 +39,16 @@ const Profile = () => {
             <Pen />
           </Button>
         </div>
-
         <div className="my-5">
           <div className="flex items-center gap-3 my-2">
             <Mail />
-            <span>
+            <span className="">
               <a href={`mailto:${user?.email}`}>{user?.email}</a>
             </span>
           </div>
           <div className="flex items-center gap-3 my-2">
             <Contact />
-            <span>
+            <span className="">
               <a href={`tel:${user?.phoneNumber}`}>{user?.phoneNumber}</a>
             </span>
           </div>
@@ -75,12 +60,7 @@ const Profile = () => {
             <div className="flex items-center gap-1">
               {user?.profile?.skills.length !== 0 ? (
                 user?.profile?.skills.map((item, index) => (
-                  <Badge
-                    key={index}
-                    className={` text-violet-600 bg-violet-100 px-3 py-1 rounded-full font-medium hover:bg-violet-50`}
-                  >
-                    {item}
-                  </Badge>
+                  <Badge key={index}>{item}</Badge>
                 ))
               ) : (
                 <span>NA</span>
@@ -91,16 +71,16 @@ const Profile = () => {
 
         <div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <label className="text-md font-bold">Resume</label>
+            <label className="text-md font-bold"> Resume</label>
             <div>
-            {isResume ? (
+              {isResume ? (
                 <a
                   target="_blank"
                   href={user?.profile?.resume}
                   className="text-blue-600 hover:underline cursor-pointer"
                 >
                   Download
-                  {user?.profile?.resumeOriginalName}
+                  {user?.profile?.esumeOriginalName }
                 </a>
               ) : (
                 <span>No Resume Found</span>
@@ -109,16 +89,15 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <div className="max-w-4xl mx-auto bg-white rounded-2xl">
         <h1 className="text-lg my-5 font-bold">Applied Jobs</h1>
-        {/* Add Application Table or Section Here */}
-        <Appliedjobs />
+
+        {/* Add Application Table */}
+        <AppliedJob />
       </div>
 
       {/* Edit Profile Modal */}
       <EditProfileModal open={open} setOpen={setOpen} />
-      {/* Add modal for editing profile if required */}
     </div>
   );
 };
