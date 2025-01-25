@@ -76,7 +76,9 @@ function Navbar() {
                   </div>
                   <div className="flex items-center gap-2 w-fit cursor-pointer">
                     <LogOut />
-                    <Button variant="link">Logout</Button>
+                    <Button variant="link">
+                      <Link to={"/"}>Logout</Link>
+                    </Button>
                   </div>
                 </div>
               </PopoverContent>
