@@ -1,0 +1,145 @@
+import React, { useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { LogOut, User2, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+function Navbar() {
+  const { user } = useSelector((store) => store.auth); // Replace with actual user authentication logic
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  return (
+    <div className="bg-white">
+      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4">
+        {/* Logo */}
+        <div>
+          <h1 className="text-2xl font-bold">
+            Career<span className="text-[#512b95]">Connect</span>
+          </h1>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={toggleSidebar} className="p-2">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Navigation Links for larger devices */}
+        <div className="hidden md:flex items-center gap-10">
+          <ul className="flex font-medium items-center gap-6">
+            <li><Link to="/Home">Home</Link></li>
+            <li><Link to="/Browse">Browse</Link></li>
+            <li><Link to="/Jobs">Jobs</Link></li>
+          </ul>
+
+          {!user ? (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+              <Link to="/register">
+                <Button className="bg-[#512b95] hover:bg-[#522b959d]">Register</Button>
+              </Link>
+            </div>
+          ) : (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                  />
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent>
+                <div className="flex items-center gap-4">
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
+                  </Avatar>
+                  <div>
+                    <h1 className="font-medium">User</h1>
+                    <p className="text-sm text-muted-foreground">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col my-2 text-gray-600">
+                  <div className="flex items-center gap-2 w-fit cursor-pointer">
+                    <User2 />
+                    <Button variant="link"><Link to="/Profile">View Profile</Link></Button>
+                  </div>
+                  <div className="flex items-center gap-2 w-fit cursor-pointer">
+                    <LogOut />
+                    <Button variant="link">Logout</Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
+
+        {/* Sidebar for small devices */}
+        <div
+          className={`fixed top-0 left-0 w-64 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-xl font-bold">Menu</h2>
+            <button onClick={toggleSidebar}>
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <ul className="p-4 space-y-4">
+            <li><Link to="/Home" onClick={toggleSidebar}>Home</Link></li>
+            <li><Link to="/Browse" onClick={toggleSidebar}>Browse</Link></li>
+            <li><Link to="/Jobs" onClick={toggleSidebar}>Jobs</Link></li>
+            {!user ? (
+              <>
+                <li><Link to="/login" onClick={toggleSidebar}>Login</Link></li>
+                <li><Link to="/register" onClick={toggleSidebar}>Register</Link></li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/Profile" onClick={toggleSidebar}>View Profile</Link></li>
+                <li><button onClick={toggleSidebar}>Logout</button></li>
+              </>
+            )}
+          </ul>
+        </div>
+
+        {/* Overlay when sidebar is open */}
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={toggleSidebar}
+          ></div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Navbar;
