@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-  } from "../ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ const EditProfileModal = ({ open, setOpen }) => {
   const { user } = useSelector((store) => store.auth);
 
   const [input, setInput] = useState({
-    fullname: user?.fullname, // Corrected from fullnamename to fullname
+    fullname: user?.fullname,
     email: user?.email,
     phoneNumber: user?.phoneNumber,
     bio: user?.profile?.bio,
@@ -100,7 +100,7 @@ const EditProfileModal = ({ open, setOpen }) => {
                   type="text"
                   id="name"
                   value={input.fullname}
-                  name="name"
+                  name="fullname"
                   onChange={changeEventHandler}
                   className="col-span-3 border border-gray-300 rounded-md p-2"
                 />

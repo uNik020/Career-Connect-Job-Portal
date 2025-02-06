@@ -3,7 +3,7 @@ import React from "react";
 
 const JobCards = () => {
   return (
-    <div className="p-6 bg-white border rounded-lg shadow-md space-y-6 max-w-xl mx-auto cursor-pointer transform transition-all duration-300  hover:scale-105 hover:shadow-lg hover:rotate-3 hover:border-gray-300 hover:shadow-[#6b38c278]">
+    <div className="p-6 bg-white border rounded-lg shadow-md space-y-6 max-w-xl mx-auto cursor-pointer transform transition-all duration-300  hover:scale-100 hover:shadow-lg hover:border-gray-300 hover:shadow-[#6b38c278]">
       {/* Header Section */}
       <div className="flex justify-between items-center">
         <div>

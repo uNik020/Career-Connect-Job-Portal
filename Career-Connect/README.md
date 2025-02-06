@@ -17,8 +17,6 @@
 -> npx shadcn@latest add sonner
 
 
-
-
 **Backend Installation**
 
 -> npm i express mongoose dotenv bcrypt cors jsonwebtoken cookie-parser multer datauri cloudinary
