@@ -1,14 +1,46 @@
 import React, { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { LogOut, User2, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import store from "@/redux/store";
+import { toast } from "sonner";
+import { setUser } from "@/redux/authSlice";
+import axios from "axios";
+import { USER_API_ENDPOINT } from "@/utils/data";
 
 function Navbar() {
   const { user } = useSelector((store) => store.auth); // Replace with actual user authentication logic
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar
+  const logoutHandler = async () => {
+    try {
+      const response = await axios.post(`${USER_API_ENDPOINT}/logout`, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        toast.success("Logged out successfully");
+        navigate("/");
+        dispatch(setUser(null));
+      } else {
+        toast.error("Failed to log out");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred");
+      }
+    }
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -46,9 +78,15 @@ function Navbar() {
         {/* Navigation Links for larger devices */}
         <div className="hidden md:flex items-center gap-10">
           <ul className="flex font-medium items-center gap-6">
-            <li><Link to="/Home">Home</Link></li>
-            <li><Link to="/Browse">Browse</Link></li>
-            <li><Link to="/Jobs">Jobs</Link></li>
+            <li>
+              <Link to="/Home">Home</Link>
+            </li>
+            <li>
+              <Link to="/Browse">Browse</Link>
+            </li>
+            <li>
+              <Link to="/Jobs">Jobs</Link>
+            </li>
           </ul>
 
           {!user ? (
@@ -57,7 +95,9 @@ function Navbar() {
                 <Button variant="outline">Login</Button>
               </Link>
               <Link to="/register">
-                <Button className="bg-[#512b95] hover:bg-[#522b959d]">Register</Button>
+                <Button className="bg-[#512b95] hover:bg-[#522b959d]">
+                  Register
+                </Button>
               </Link>
             </div>
           ) : (
@@ -65,7 +105,7 @@ function Navbar() {
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={user?.profile?.profilePhoto}
                     alt="@shadcn"
                   />
                 </Avatar>
@@ -74,25 +114,29 @@ function Navbar() {
                 <div className="flex items-center gap-4">
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      src={user?.profile?.profilePhoto}
                       alt="@shadcn"
                     />
                   </Avatar>
                   <div>
-                    <h1 className="font-medium">User</h1>
+                    <h1 className="font-medium">{user?.fullname}</h1>
                     <p className="text-sm text-muted-foreground">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    {user?.profile?.bio}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col my-2 text-gray-600">
                   <div className="flex items-center gap-2 w-fit cursor-pointer">
                     <User2 />
-                    <Button variant="link"><Link to="/Profile">View Profile</Link></Button>
+                    <Button variant="link">
+                      <Link to="/Profile">View Profile</Link>
+                    </Button>
                   </div>
                   <div className="flex items-center gap-2 w-fit cursor-pointer">
                     <LogOut />
-                    <Button variant="link">Logout</Button>
+                    <Button onClick={logoutHandler} variant="link">
+                      Logout
+                    </Button>
                   </div>
                 </div>
               </PopoverContent>
@@ -113,18 +157,44 @@ function Navbar() {
             </button>
           </div>
           <ul className="p-4 space-y-4">
-            <li><Link to="/Home" onClick={toggleSidebar}>Home</Link></li>
-            <li><Link to="/Browse" onClick={toggleSidebar}>Browse</Link></li>
-            <li><Link to="/Jobs" onClick={toggleSidebar}>Jobs</Link></li>
+            <li>
+              <Link to="/Home" onClick={toggleSidebar}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/Browse" onClick={toggleSidebar}>
+                Browse
+              </Link>
+            </li>
+            <li>
+              <Link to="/Jobs" onClick={toggleSidebar}>
+                Jobs
+              </Link>
+            </li>
             {!user ? (
               <>
-                <li><Link to="/login" onClick={toggleSidebar}>Login</Link></li>
-                <li><Link to="/register" onClick={toggleSidebar}>Register</Link></li>
+                <li>
+                  <Link to="/login" onClick={toggleSidebar}>
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/register" onClick={toggleSidebar}>
+                    Register
+                  </Link>
+                </li>
               </>
             ) : (
               <>
-                <li><Link to="/Profile" onClick={toggleSidebar}>View Profile</Link></li>
-                <li><button onClick={toggleSidebar}>Logout</button></li>
+                <li>
+                  <Link to="/Profile" onClick={toggleSidebar}>
+                    View Profile
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={logoutHandler}>Logout</button>
+                </li>
               </>
             )}
           </ul>

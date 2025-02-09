@@ -22,7 +22,7 @@ function Header() {
           <div ref={containerRef} style={{ position: "relative" }}>
             {/* Apply VariableProximity effect to the first part */}
             <VariableProximity
-              label={"Search, Apply &"}
+              label={"Search, Apply & "}
               fromFontVariationSettings="'wght' 400, 'opsz' 9"
               toFontVariationSettings="'wght' 1000, 'opsz' 40"
               containerRef={containerRef}
