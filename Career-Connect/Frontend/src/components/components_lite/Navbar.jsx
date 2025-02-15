@@ -78,15 +78,38 @@ function Navbar() {
         {/* Navigation Links for larger devices */}
         <div className="hidden md:flex items-center gap-10">
           <ul className="flex font-medium items-center gap-6">
-            <li>
-              <Link to="/Home">Home</Link>
-            </li>
-            <li>
-              <Link to="/Browse">Browse</Link>
-            </li>
-            <li>
-              <Link to="/Jobs">Jobs</Link>
-            </li>
+            {user && user.role === "Recruiter" ? (
+              <>
+                <li>
+                  <Link to="/admin/companies" onClick={toggleSidebar}>
+                    Companies
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/jobs" onClick={toggleSidebar}>
+                    Jobs
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/Home" onClick={toggleSidebar}>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Browse" onClick={toggleSidebar}>
+                    Browse
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Jobs" onClick={toggleSidebar}>
+                    Jobs
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
 
           {!user ? (
@@ -121,17 +144,20 @@ function Navbar() {
                   <div>
                     <h1 className="font-medium">{user?.fullname}</h1>
                     <p className="text-sm text-muted-foreground">
-                    {user?.profile?.bio}
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col my-2 text-gray-600">
-                  <div className="flex items-center gap-2 w-fit cursor-pointer">
-                    <User2 />
-                    <Button variant="link">
-                      <Link to="/Profile">View Profile</Link>
-                    </Button>
-                  </div>
+                  {user && user?.role === "Student" && (
+                    <div className="flex items-center gap-2 w-fit cursor-pointer">
+                      <User2 />
+                      <Button variant="link">
+                        <Link to="/Profile">View Profile</Link>
+                      </Button>
+                    </div>
+                  )}
+
                   <div className="flex items-center gap-2 w-fit cursor-pointer">
                     <LogOut />
                     <Button onClick={logoutHandler} variant="link">
@@ -157,21 +183,39 @@ function Navbar() {
             </button>
           </div>
           <ul className="p-4 space-y-4">
-            <li>
-              <Link to="/Home" onClick={toggleSidebar}>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/Browse" onClick={toggleSidebar}>
-                Browse
-              </Link>
-            </li>
-            <li>
-              <Link to="/Jobs" onClick={toggleSidebar}>
-                Jobs
-              </Link>
-            </li>
+            {user && user.role === "Recruiter" ? (
+              <>
+                <li>
+                  <Link to="/admin/companies" onClick={toggleSidebar}>
+                    Companies
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/jobs" onClick={toggleSidebar}>
+                    Jobs
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/Home" onClick={toggleSidebar}>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Browse" onClick={toggleSidebar}>
+                    Browse
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Jobs" onClick={toggleSidebar}>
+                    Jobs
+                  </Link>
+                </li>
+              </>
+            )}
+
             {!user ? (
               <>
                 <li>

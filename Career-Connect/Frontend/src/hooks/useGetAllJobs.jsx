@@ -8,7 +8,7 @@ const useGetAllJobs = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { searchedQuery } = useSelector((store) => store.job);
+  const { searchedQuery } = useSelector((store) => store.jobs); //jobs /not job
 
   useEffect(() => {
     const fetchAllJobs = async () => {
@@ -16,14 +16,11 @@ const useGetAllJobs = () => {
       setError(null);
       try {
         const res = await axios.get(
-          `${JOB_API_ENDPOINT}/get?keyword=${searchedQuery}`,
-          {
-            withCredentials: true,
-          }
+          `${JOB_API_ENDPOINT}/get?keyword=${searchedQuery}`, // Uses searchedQuery
+          { withCredentials: true }
         );
-        console.log("API Response:", res.data);
+        //console.log("API Response:", res.data);
         if (res.data.status) {
-          // Updated success check
           dispatch(setAllJobs(res.data.jobs));
         } else {
           setError("Failed to fetch jobs.");
@@ -35,10 +32,10 @@ const useGetAllJobs = () => {
         setLoading(false);
       }
     };
-
+  
     fetchAllJobs();
-  }, [dispatch]);
-
+  }, [dispatch]); // removed searchedQuery  dependency array
+  
   return { loading, error };
 };
 
