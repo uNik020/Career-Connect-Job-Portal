@@ -10,6 +10,9 @@ import Browse from "./components/components_lite/Browse";
 import Profile from "./components/components_lite/Profile";
 import Description from "./components/components_lite/Description";
 import TermsOfService from "./components/components_lite/TermsofService";
+import Companies from "./components/admincomponents/Companies";
+import CompanyCreate from "./components/admincomponents/CompanyCreate";
+import CompanySetup from "./components/admincomponents/CompanySetup";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -22,6 +25,13 @@ const appRouter = createBrowserRouter([
   { path: "/Profile", element: <Profile /> },
   { path: "/description/:id", element: <Description /> },
   { path: "/Tos", element: <TermsOfService /> },
+
+  //admin routes
+  { path: "/admin/companies", element: <Companies /> },
+  { path: "/admin/companies/create", element: <CompanyCreate /> },
+  { path: "/admin/companies/:id", element: <CompanySetup /> },
+
+
 ]);
 
 function App() {

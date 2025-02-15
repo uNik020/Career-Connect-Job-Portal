@@ -3,9 +3,10 @@ import Navbar from "./Navbar";
 import Filtercard from "./Filtercard";
 import Job1 from "./Job1";
 import Footer from "./Footer";
+import { useSelector } from "react-redux";
 
-const jobsArray = [1, 2, 3, 4, 5, 6, , 7, 8, 9, 10, 11, 12];
 const Jobs = () => {
+  const {allJobs} =useSelector((store) => store.jobs); //jobs instead of job
   return (
     <>
       <div>
@@ -20,7 +21,7 @@ const Jobs = () => {
 
             {/* Job List Section */}
             <div className="flex-1">
-              {jobsArray.length <= 0 ? (
+              {allJobs.length <= 0 ? (
                 <p className="text-center text-gray-500 text-lg mt-10">
                   No jobs available
                 </p>
@@ -28,8 +29,10 @@ const Jobs = () => {
                 <div className="h-[88vh] overflow-y-auto pb-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                   <h2 className="text-2xl font-bold mb-6">Job Listings</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {jobsArray.map((job, index) => (
-                      <Job1 key={index} job={job} />
+                    {allJobs.map((job) => (
+                      <div key={job._id}>
+                        <Job1 job={job} />
+                      </div>
                     ))}
                   </div>
                 </div>
