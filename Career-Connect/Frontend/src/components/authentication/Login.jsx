@@ -115,7 +115,7 @@ const Login = () => {
                         setErrors({ ...errors, password: "" });
                       }}
                       className={`pr-10 ${errors.password ? "border-red-500" : ""}`}
-                      placeholder="••••••••"
+                      placeholder="password"
                     />
                     <button
                       type="button"
