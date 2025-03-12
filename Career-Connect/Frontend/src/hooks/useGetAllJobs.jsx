@@ -8,7 +8,7 @@ const useGetAllJobs = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { searchedQuery } = useSelector((store) => store.job);
+  const { searchedQuery } = useSelector((store) => store.jobs);
 
   useEffect(() => {
     const fetchAllJobs = async () => {

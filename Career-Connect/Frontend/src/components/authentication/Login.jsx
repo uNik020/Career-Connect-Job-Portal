@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "../ui/radio-group";
@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, setUser  } from "@/redux/authSlice";
+import { setLoading, setUser } from "@/redux/authSlice";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -18,18 +18,24 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loading } = useSelector((store) => store.auth);
+  const dispatch = useDispatch()
+  const { loading, user } = useSelector((store) => store.auth);
+  console.log('Loading state:', loading);
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
+  const ChangeFilehandler = (e) => {
+    setInput({ ...input, file: e.target.files?.[0] });
+  };
+
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-      dispatch(setLoading(true));
+      dispatch(setLoading(false));
       const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -41,22 +47,31 @@ const Login = () => {
         dispatch(setUser (res.data.user));
         navigate("/Home"); // Redirect to Home after login
         toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error); // Optional: Change this for more user-friendly error handling
-      toast.error(error.response ? error.response.data.message : "Something went wrong!");
+      toast.error(error.response ? error.response.data.message : "Login Failed!");
     } finally {
       dispatch(setLoading(false));
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
+
   return (
     <>
       <Navbar />
-      <div className=" flex flex-wrap justify-center items-center min-h-screen p-5  flex-col md:flex-row">
-      <div className="lg:w-3/10 md:w-2/5 w-full lg:pr-4 md:pr-2 pr-0">
-        <img src="login.png" alt="hero_img" className="w-full h-full object-cover object-center" />
-      </div>
+      <div className="flex flex-wrap justify-center items-center min-h-screen p-5 flex-col md:flex-row">
+        <div className="lg:w-3/10 md:w-2/5 w-full lg:pr-4 md:pr-2 pr-0">
+          <img src="login.png" alt="hero_img" className="w-full h-full object-cover object-center" />
+        </div>
         <form
           onSubmit={submitHandler}
           className="w-full max-w-md border border-[#7e22ce] rounded-lg p-6 bg-white shadow-lg"
@@ -120,7 +135,10 @@ const Login = () => {
               </div>
             </div>
           ) : (
-            <button className="bg-[#7e22ce] hover:bg-[#7e22ce80] block my-3 w-full py-3 text-white rounded-md transition duration-200">
+            <button
+              type="submit"
+              className="bg-[#7e22ce] hover:bg-[#7e22ce80] block my-3 w-full py-3 text-white rounded-md transition duration-200"
+            >
               Login
             </button>
           )}

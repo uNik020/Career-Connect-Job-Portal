@@ -40,7 +40,7 @@
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
-
+  
     --input: 240 5.9% 90%;
 
     --ring: 240 10% 3.9%;
@@ -112,6 +112,17 @@
 @layer base {
   * {
     @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;

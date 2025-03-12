@@ -17,7 +17,7 @@ const Register = () => {
     password: '',
     role: '',
     phoneNumber: '',
-    file: '',
+    file: "",
   });
 
   const navigate = useNavigate();
@@ -68,10 +68,10 @@ const Register = () => {
   return (
     <>
       <Navbar />
-      <div className='flex items-center justify-center min-h-screen p-5 '>
-      <div className="lg:w-3/10 md:w-2/5 w-full lg:pr-4 md:pr-2 pr-0">
-        <img src="welcome.png" alt="hero_img" className="w-full h-full object-cover object-center" />
-      </div>
+      <div className='flex items-center justify-center min-h-screen p-5'>
+        <div className="lg:w-3/10 md:w-2/5 w-full lg:pr-4 md:pr-2 pr-0">
+          <img src="welcome.png" alt="hero_img" className="w-full h-full object-cover object-center" />
+        </div>
         <form
           onSubmit={submitHandler}
           className='w-full max-w-md border border-[#7e22ce] rounded-lg p-6 bg-white shadow-lg'

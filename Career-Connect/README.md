@@ -5,6 +5,7 @@
 
 -> npm react-router-dom axios @reduxjs/toolkit react-redux 
 -> npm i lucide-react
+=> npm i framer-motion
 
 -> npx shadcn@latest init
 
