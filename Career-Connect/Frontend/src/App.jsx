@@ -20,6 +20,8 @@ import PostJob from "./components/admincomponents/PostJob";
 import Applicants from "./components/admincomponents/Applicants";
 import ProtectedRoute from "./components/admincomponents/ProtectedRoute";
 import About from "./components/components_lite/About";
+import ForgetPassword from "./components/authentication/ForgetPassword";
+import ResetPassword from "./components/authentication/ResetPassword";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -33,6 +35,8 @@ const appRouter = createBrowserRouter([
   { path: "/description/:id", element: <Description /> },
   { path: "/Tos", element: <TermsOfService /> },
   { path: "/about", element: <About /> },
+  { path: "/forgetpassword", element: <ForgetPassword /> },
+  { path: "/reset-password", element: <ResetPassword /> },
 
   //admin routes
   {

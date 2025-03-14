@@ -163,6 +163,15 @@ const Login = () => {
                 </div>
               </div>
 
+              <span className="flex justify-center">
+                  <Link
+                  to="/forgetpassword"
+                  className=" text-[#7e22ce] hover:text-[#6b21a8] hover:underline"
+                >
+                  Forgot Password?
+                </Link>
+                  </span>
+          
               <button
                 type="submit"
                 disabled={loading}
